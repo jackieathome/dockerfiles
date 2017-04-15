@@ -2,14 +2,14 @@
 FROM centos
 
 MAINTAINER Jackie "www.jackieathome.net"
-ENV NGINX_VERSION 1.10.3
-ENV OPENSSL_VERSION 1.0.2k
-ENV PCRE_VERSION 8.40
-ENV ZLIB_VERSION 1.2.11
-ENV BUILD_ROOT /usr/local/src/nginx
 
 #RUN yum -y update \
-RUN     yum -y install curl \
+RUN NGINX_VERSION=1.11.13 \
+        && OPENSSL_VERSION=1.0.2k \
+        && PCRE_VERSION=8.40 \
+        && ZLIB_VERSION=1.2.11 \
+        && BUILD_ROOT=/usr/local/src/nginx \
+        && yum -y install curl \
         && mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup \
         && curl http://mirrors.163.com/.help/CentOS7-Base-163.repo -o /etc/yum.repos.d/CentOS7-Base-163.repo \ 
         && yum clean all \
@@ -49,6 +49,7 @@ RUN     yum -y install curl \
         && mkdir -p /var/cache/nginx \
         && ./configure $BUILD_CONFIG \
         && make && make install \
+        && strip /usr/sbin/nginx* \
         && rm -rf $BUILD_ROOT \
         && yum -y remove gcc gcc-c++ make perl zip unzip \
         && yum clean all

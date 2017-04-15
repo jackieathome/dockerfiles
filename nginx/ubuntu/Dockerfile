@@ -2,13 +2,13 @@
 FROM ubuntu:14.04
 
 MAINTAINER Jackie "www.jackieathome.net"
-ENV NGINX_VERSION 1.10.3
-ENV OPENSSL_VERSION 1.0.2k
-ENV PCRE_VERSION 8.40
-ENV ZLIB_VERSION 1.2.11
-ENV BUILD_ROOT /usr/local/src/nginx
 
-RUN cp /etc/apt/sources.list /etc/apt/sources.list.bak \
+RUN NGINX_VERSION=1.11.13 \
+        && OPENSSL_VERSION=1.0.2k \
+        && PCRE_VERSION=8.40 \
+        && ZLIB_VERSION=1.2.11 \
+        && BUILD_ROOT=/usr/local/src/nginx \
+        && cp /etc/apt/sources.list /etc/apt/sources.list.bak \
         && sed -i "s/archive\.ubuntu\.com/mirrors\.163\.com/g" /etc/apt/sources.list \
         && apt-get update \
         && apt-get -y install zip unzip curl make gcc g++ \
